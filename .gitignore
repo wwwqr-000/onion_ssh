@@ -1,0 +1,6 @@
+
+windows/onion_ssh/bin/Debug/onion_ssh.exe
+windows/onion_ssh/bin/Release/onion_ssh.exe
+windows/onion_ssh/obj/Debug/main.o
+windows/onion_ssh/obj/Release/main.o
+windows/onion_ssh/onion_ssh.depend

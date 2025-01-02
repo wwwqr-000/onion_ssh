@@ -1,0 +1,7 @@
+{
+    "torService": {
+        "port": "9050",
+        "ip": "127.0.0.1",
+        "socksType": "socks5"
+    }
+}
