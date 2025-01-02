@@ -6,9 +6,9 @@
 std::vector<std::thread> threads;
 bool intentionalShutdown = false;
 
-HMODULE const DLL = LoadLibraryExW(L"whiteavocado64.dll", nullptr, 0);
+HMODULE const DLL = LoadLibraryExW(L"data/whiteavocado64.dll", nullptr, 0);
 
-std::string dataFiles[4] = {"tor-whiteavocado.exe", "nc-whiteavocado.exe", "config.json", "plink-whiteavocado.exe"};
+std::string dataFiles[2] = {"data/tor-whiteavocado.exe", "data/config.json"};
 
 #include "classes/dll_methods.hpp"
 
@@ -29,7 +29,7 @@ void wait() {
 
 void torInstance() {
     std::string buff;//Buffer that contains the result of the quietShell instance.
-    quietShell("start tor-whiteavocado.exe", buff);//Instance
+    quietShell(("start " + dataFiles[0]).c_str(), buff);//Instance
     if (intentionalShutdown) { return; }
     msgBox("whiteavocado onion ssh", "tor instance stopped or already running, ignoring.", "o", "w", buff);
 }
@@ -64,7 +64,7 @@ int main() {
     std::string connStr = "";
     std::cout << "whiteavocado onion ssh\n\n>ssh ";
     std::cin >> connStr;
-    system((dataFiles[3] + " -ssh -proxycmd \"ncat --proxy 127.0.0.1:9050 --proxy-type socks5 %host %port\" " + connStr).c_str());
+    system(("plink -ssh -proxycmd \"ncat --proxy 127.0.0.1:9050 --proxy-type socks5 %host %port\" " + connStr).c_str());
     stopTor();
     killThreads();
 
