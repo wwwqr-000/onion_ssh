@@ -73,6 +73,7 @@ void setConfig() {
     }
     if (configData["firstUse"] == "true") {
         configData["firstUse"] = "false";
+
         msgBox(title.c_str(), "Thanks for downloading the onion ssh tool from whiteavocado!\n\nDependencies for this tool:\n* putty (plink)\n* netcat\n\nWould you like to go to the download page of netcat and putty?", "yn", "i", buff);
         if (buff == "yes") {
             system("start https://www.putty.org/ && start https://nmap.org/ncat/");
