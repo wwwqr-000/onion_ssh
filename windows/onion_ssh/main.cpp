@@ -59,6 +59,7 @@ void stopTor() {
 void setConfig() {
     std::ifstream f(dataFiles[1]);
     configData = json::parse(f);
+    f.close();
     std::string buff = "";
     try {
         buff = configData["torService"]["port"];
@@ -73,6 +74,12 @@ void setConfig() {
     }
     if (configData["firstUse"] == "true") {
         configData["firstUse"] = "false";
+        std::string jsonStr = configData.dump(4);
+        std::ofstream f(dataFiles[1]);
+        if (f.is_open()) {
+            f << jsonStr;
+            f.close();
+        }
 
         msgBox(title.c_str(), "Thanks for downloading the onion ssh tool from whiteavocado!\n\nDependencies for this tool:\n* putty (plink)\n* netcat\n\nWould you like to go to the download page of netcat and putty?", "yn", "i", buff);
         if (buff == "yes") {
@@ -84,20 +91,29 @@ void setConfig() {
     }
 }
 
+void helpMenu() {
+    cls();
+    std::cout << title << "\n\nHelp\n\n";
+    std::cout << "help -> Shows all available commands.\n";
+    std::cout << "examples -> Shows example commands.\n";
+    std::cout << "If the command is non of the above, the input will be seen as a ssh line.\n";
+
+}
+
 int main() {
     system(("@echo off && title " + title + " && color a && cls").c_str());
     if (!dependenciesExist()) {
         system("color 4");
         std::cout << "depending file(s) do not exist or no access. Aborted.\n\nPress enter to exit\n";
         wait();
-        return 2;
+        return 3;
     }
     setConfig();
     startTor();
     std::string connStr = "";
     std::cout << title << "\n\n>ssh ";
-    std::cin >> connStr;
-    system(("plink -ssh -proxycmd \"ncat --proxy " + configData["torService"]["ip"] + ":" + configData["torService"]["port"] + " --proxy-type socks" + configData["torService"]["socksVersion"] + " %host %port\" " + connStr).c_str());
+    std::getline(std::cin, connStr);
+    system(("plink -ssh -proxycmd \"ncat --proxy " + std::string(configData["torService"]["ip"]) + ":" + std::string(configData["torService"]["port"]) + " --proxy-type socks" + std::string(configData["torService"]["socksVersion"]) + " %host %port\" " + connStr).c_str());
     stopTor();
     killThreads();
     return 0;
