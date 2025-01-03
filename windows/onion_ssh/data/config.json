@@ -1,5 +1,5 @@
 {
-    "firstUse": "true",
+    "firstUse": "false",
     "torService": {
         "ip": "127.0.0.1",
         "port": "9050",

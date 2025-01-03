@@ -1,0 +1,7 @@
+#ifndef HEADER_4C70FC8A6A94F122
+#define HEADER_4C70FC8A6A94F122
+
+#define IDR_WHITEAVOCADODLL 1
+#define IDR_TESTIMG 2
+#endif // header guard
+

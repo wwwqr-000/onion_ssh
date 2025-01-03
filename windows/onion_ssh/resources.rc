@@ -1,0 +1,3 @@
+#include "classes/resource.h"
+IDR_WHITEAVOCADODLL RCDATA "data/whiteavocado64.dll"
+IDR_TESTIMG RCDATA "data/test.png"

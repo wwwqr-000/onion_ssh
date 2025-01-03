@@ -5,11 +5,13 @@
 #include <fstream>
 
 #include "classes/json.hpp"
+#include "classes/resource.h"
+
 using json = nlohmann::json;
 
 std::vector<std::thread> threads;
 bool intentionalShutdown = false;
-HMODULE const DLL = LoadLibraryExW(L"data/whiteavocado64.dll", nullptr, 0);
+HMODULE DLL = LoadLibraryExW(L"data/whiteavocado64.dll", nullptr, 0);
 std::string dataFiles[2] = {"data/tor-whiteavocado.exe", "data/config.json"};
 json configData;
 std::string title = "whiteavocado onion ssh";
@@ -21,6 +23,23 @@ bool dependenciesExist() {
         if (!access(f.c_str())) { return false; }
     }
     return true;
+}
+
+int unpackRCResource(int definedVar, std::string name, std::string dropLocation) {
+    HRSRC hRes = FindResource(NULL, MAKEINTRESOURCE(definedVar), RT_RCDATA);
+    if (!hRes) {
+        return 1;
+    }
+    HGLOBAL hLoadRes = LoadResource(NULL, hRes);
+    DWORD resSize = SizeofResource(NULL, hRes);
+    void* pResData = LockResource(hLoadRes);
+    if (!pResData || resSize == 0) {
+        return 2;
+    }
+    std::ofstream tmpFile(dropLocation + name, std::ios::binary);
+    tmpFile.write(reinterpret_cast<const char*>(pResData), resSize);
+    tmpFile.close();
+    return 0;
 }
 
 void cls() {
@@ -82,17 +101,12 @@ void setConfig() {
             f.close();
         }
 
-        msgBox(title.c_str(), "Thanks for downloading the onion ssh tool from whiteavocado!\n\nDependencies for this tool:\n* putty (plink)\n* netcat\n\nWould you like to go to the download page of netcat and putty?", "yn", "i", buff);
-        if (buff == "yes") {
-            system("start https://www.putty.org/ && start https://nmap.org/ncat/");
-            buff = "";
-            msgBox(title.c_str(), ("Would you like to start " + title + "?").c_str(), "yn", "q", buff);
-            if (buff != "yes") { exit(0); }
-        }
+        msgBox(title.c_str(), "Thanks for downloading the onion ssh tool from whiteavocado!", "o", "i", buff);
     }
 }
 
 int main() {
+    std::cout << unpackRCResource(IDR_TESTIMG, "test.png", "");
     system(("@echo off && title " + title + " && color a && cls").c_str());
     if (!dependenciesExist()) {
         system("color 4");
@@ -105,7 +119,7 @@ int main() {
     std::string connStr = "";
     std::cout << title << "\n\n>ssh ";
     std::getline(std::cin, connStr);
-    system(("plink -ssh -proxycmd \"ncat --proxy " + std::string(configData["torService"]["ip"]) + ":" + std::string(configData["torService"]["port"]) + " --proxy-type socks" + std::string(configData["torService"]["socksVersion"]) + " %host %port\" " + connStr).c_str());
+    system(("plink.exe -ssh -proxycmd \"ncat.exe --proxy " + std::string(configData["torService"]["ip"]) + ":" + std::string(configData["torService"]["port"]) + " --proxy-type socks" + std::string(configData["torService"]["socksVersion"]) + " %host %port\" " + connStr).c_str());
     stopTor();
     killThreads();
     return 0;
