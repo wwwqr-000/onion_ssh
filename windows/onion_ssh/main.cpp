@@ -56,6 +56,7 @@ void stopTor() {
     quietShell("taskkill /IM tor-whiteavocado.exe /F", buff);
 }
 
+
 void setConfig() {
     std::ifstream f(dataFiles[1]);
     configData = json::parse(f);
@@ -89,15 +90,6 @@ void setConfig() {
             if (buff != "yes") { exit(0); }
         }
     }
-}
-
-void helpMenu() {
-    cls();
-    std::cout << title << "\n\nHelp\n\n";
-    std::cout << "help -> Shows all available commands.\n";
-    std::cout << "examples -> Shows example commands.\n";
-    std::cout << "If the command is non of the above, the input will be seen as a ssh line.\n";
-
 }
 
 int main() {
