@@ -101,6 +101,7 @@ int main() {
     std::cout << title << "\n\n>ssh ";
     std::getline(std::cin, connStr);
     system(("plink.exe -ssh -proxycmd \"ncat.exe --proxy " + std::string(configData["torService"]["ip"]) + ":" + std::string(configData["torService"]["port"]) + " --proxy-type socks" + std::string(configData["torService"]["socksVersion"]) + " %host %port\" " + connStr).c_str());
+    wait();
     stopTor();
     killThreads();
     return 0;
