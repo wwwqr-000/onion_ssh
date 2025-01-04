@@ -5,13 +5,12 @@
 #include <fstream>
 
 #include "classes/json.hpp"
-#include "classes/resource.h"
 
 using json = nlohmann::json;
 
 std::vector<std::thread> threads;
 bool intentionalShutdown = false;
-HMODULE DLL = LoadLibraryExW(L"data/whiteavocado64.dll", nullptr, 0);
+HMODULE const DLL = LoadLibraryExW(L"data/whiteavocado64.dll", nullptr, 0);
 std::string dataFiles[2] = {"data/tor-whiteavocado.exe", "data/config.json"};
 json configData;
 std::string title = "whiteavocado onion ssh";
@@ -23,23 +22,6 @@ bool dependenciesExist() {
         if (!access(f.c_str())) { return false; }
     }
     return true;
-}
-
-int unpackRCResource(int definedVar, std::string name, std::string dropLocation) {
-    HRSRC hRes = FindResource(NULL, MAKEINTRESOURCE(definedVar), RT_RCDATA);
-    if (!hRes) {
-        return 1;
-    }
-    HGLOBAL hLoadRes = LoadResource(NULL, hRes);
-    DWORD resSize = SizeofResource(NULL, hRes);
-    void* pResData = LockResource(hLoadRes);
-    if (!pResData || resSize == 0) {
-        return 2;
-    }
-    std::ofstream tmpFile(dropLocation + name, std::ios::binary);
-    tmpFile.write(reinterpret_cast<const char*>(pResData), resSize);
-    tmpFile.close();
-    return 0;
 }
 
 void cls() {
@@ -106,7 +88,6 @@ void setConfig() {
 }
 
 int main() {
-    std::cout << unpackRCResource(IDR_TESTIMG, "test.png", "");
     system(("@echo off && title " + title + " && color a && cls").c_str());
     if (!dependenciesExist()) {
         system("color 4");
