@@ -1,3 +1,4 @@
 #include "classes/resource.h"
 
-IDR_WHITEAVOCADODLL RCDATA "data/whiteavocado64.dll"
+ASSET_WHITEAVOCADO_DLL RCDATA "data/whiteavocado64.dll"
+ASSET_ONION_SSH RCDATA "data/onion_ssh.zip"

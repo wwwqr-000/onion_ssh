@@ -8,3 +8,9 @@ windows/onion_ssh/onion_ssh.layout
 windows/onion_ssh/obj/Release/resources.res
 windows/installer/bin/Release/installer.exe
 windows/installer/obj/Release/main.o
+windows/installer/bin/Debug/installer.exe
+windows/installer/bin/Release/Onion ssh Installer.exe
+windows/installer/installer.depend
+windows/installer/obj/Debug/main.o
+windows/installer/obj/Debug/resources.res
+windows/installer/obj/Release/resources.res

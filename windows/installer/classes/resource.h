@@ -1,6 +1,8 @@
 #ifndef HEADER_2C0CFA4216060868
 #define HEADER_2C0CFA4216060868
 
-#define IDR_WHITEAVOCADODLL 1
-#endif // header guard 
+#define ASSET_WHITEAVOCADO_DLL 1
+#define ASSET_ONION_SSH 2
+
+#endif // header guard
 
