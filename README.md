@@ -1,3 +1,3 @@
 <h2>Use ssh trough Tor (Including tunnels. Based on plink syntax)</h2>
 
-Onion ssh is part of whiteavocado
+I created onion ssh as a part of whiteavocado
